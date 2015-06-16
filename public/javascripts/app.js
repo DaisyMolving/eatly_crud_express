@@ -1,17 +1,19 @@
-$(function () {
-  alert("The Page Has Loaded!");
+var Food = Food || {};
+
+$(document).ready(function() {
+  Food.all();
+});
 
 
-
-$(function () {
-  $.get("/foods").
-    done(function (data) {
-      console.log("RECEIVING RESPONSE");
-      console.log("DATA", data);
-      $(data).each(function (index, food) {
-        var $food = $("<div>" + food.name + "</div>").addClass( "foodNames" );
-        $("body").append($food);
+Food = {  
+  all: function () {
+    $.get("/foods").
+      done(function (data) {
+        console.log("RECEIVING RESPONSE");
+        var foods = (JSON.parse(data));
+        $.each(foods, function (index, food) {
+          $("body").append(food.name);
+        });
       });
-    });
-});
-});
+    }
+}
